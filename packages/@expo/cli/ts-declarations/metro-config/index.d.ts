@@ -136,6 +136,7 @@ declare module 'metro-config' {
     port: number;
     runInspectorProxy: boolean;
     verifyConnections: boolean;
+    unstable_serverRoot?: string;
   }
 
   type StackFrameCustomizations = undefined | { collapse?: boolean };

@@ -24,12 +24,86 @@ declare module 'metro/src/HmrServer' {
   module.exports = MetroHmrServer;
 }
 
+declare module 'metro/src/ModuleGraph/worker/collectDependencies' {
+  export type AllowOptionalDependenciesWithOptions = {
+    exclude: string[];
+  };
+
+  export type DynamicRequiresBehavior = 'throwAtRuntime' | 'reject';
+
+  export type AllowOptionalDependencies = boolean | AllowOptionalDependenciesWithOptions;
+}
+
+declare module 'metro/src/DeltaBundler/types.flow' {
+  export type AllowOptionalDependenciesWithOptions = {
+    exclude: string[];
+  };
+
+  export type AllowOptionalDependencies = boolean | AllowOptionalDependenciesWithOptions;
+}
+declare module 'metro/src/DeltaBundler' {
+  export type AsyncDependencyType = 'async' | 'prefetch';
+  export type TransformResultDependency = {
+    /**
+     * The literal name provided to a require or import call. For example 'foo' in
+     * case of `require('foo')`.
+     */
+    name: string;
+
+    /**
+     * Extra data returned by the dependency extractor.
+     */
+    data: {
+      /**
+       * A locally unique key for this dependency within the current module.
+       */
+      key: string;
+      /**
+       * If not null, this dependency is due to a dynamic `import()` or `__prefetchImport()` call.
+       */
+      asyncType: AsyncDependencyType | null;
+      /**
+       * The condition for splitting on this dependency edge.
+       */
+      splitCondition?: {
+        mobileConfigName: string;
+      };
+      /**
+       * The dependency is enclosed in a try/catch block.
+       */
+      isOptional?: boolean;
+
+      locs: $ReadOnlyArray<BabelSourceLocation>;
+
+      /** Context for requiring a collection of modules. */
+      contextParams?: RequireContextParams;
+    };
+  };
+}
+
+declare module 'metro/src/lib/countLines' {
+  const countLines = (string: string) => number;
+
+  module.exports = countLines;
+  export default countLines;
+}
+
 declare module 'metro/src/lib/createWebsocketServer' {
   export function createWebsocketServer<TClient extends object>({
     websocketServer,
   }: HMROptions<TClient>): typeof import('ws').Server;
 
   module.exports = createWebsocketServer;
+}
+
+declare module 'metro/src/lib/splitBundleOptions' {
+  type SplitBundleOptions = any;
+
+  type BundleOptions = any;
+
+  function splitBundleOptions(options: BundleOptions): SplitBundleOptions;
+
+  export default splitBundleOptions;
 }
 
 declare module 'metro/src/DeltaBundler/Serializers/helpers/js' {

@@ -148,7 +148,6 @@ export function getDefaultConfig(
       port: Number(env.RCT_METRO_PORT) || 8081,
       // NOTE(EvanBacon): Moves the server root down to the monorepo root.
       // This enables proper monorepo support for web.
-      // @ts-expect-error: not on type
       unstable_serverRoot: env.EXPO_USE_METRO_WORKSPACE_ROOT
         ? getWorkspaceRoot(projectRoot) ?? projectRoot
         : projectRoot,
@@ -156,6 +155,9 @@ export function getDefaultConfig(
     symbolicator: {
       customizeFrame: getDefaultCustomizeFrame(),
     },
+    // Custom worker that adds CSS support for Metro web.
+    transformerPath: require.resolve('./transform-worker/transform-worker'),
+
     transformer: {
       // `require.context` support
       unstable_allowRequireContext: true,
