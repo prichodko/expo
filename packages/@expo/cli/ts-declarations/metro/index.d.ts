@@ -31,6 +31,74 @@ declare module 'metro/src/lib/createWebsocketServer' {
 
   module.exports = createWebsocketServer;
 }
+
+declare module 'metro/src/DeltaBundler/Serializers/helpers/js' {
+  import type { JsOutput } from 'metro-transform-worker';
+  import type { MixedOutput, Module } from 'metro';
+
+  export function getJsOutput(
+    module: readonly {
+      output: readonly MixedOutput[];
+      path?: string;
+    }
+  ): JsOutput;
+
+  export function isJsModule(module: Module<unknown>): boolean;
+}
+
+declare module 'metro/src/Assets' {
+  export type AssetInfo = {
+    files: string[];
+    hash: string;
+    name: string;
+    scales: number[];
+    type: string;
+  };
+
+  export type AssetDataWithoutFiles = {
+    __packager_asset: boolean;
+    fileSystemLocation: string;
+    hash: string;
+    height: number | null;
+    httpServerLocation: string;
+    name: string;
+    scales: number[];
+    type: string;
+    width: number | null;
+  };
+
+  export type AssetDataFiltered = {
+    __packager_asset: boolean;
+    hash: string;
+    height: number | null;
+    httpServerLocation: string;
+    name: string;
+    scales: number[];
+    type: string;
+    width: number | null;
+  };
+
+  export type AssetData = AssetDataWithoutFiles & { files: Array<string> };
+
+  export type AssetDataPlugin = (assetData: AssetData) => AssetData | Promise<AssetData>;
+
+  export async function getAsset(
+    relativePath: string,
+    projectRoot: string,
+    watchFolders: readonly string[],
+    platform: string | null | undefined,
+    assetExts: readonly string[]
+  ): Promise<Buffer>;
+
+  async function getAssetData(
+    assetPath: string,
+    localPath: string,
+    assetDataPlugins: readonly string[],
+    platform: string | null | undefined,
+    publicPath: string
+  ): Promise<AssetData>;
+}
+
 declare module 'metro' {
   //#region metro/src/Assets.js
 
@@ -51,7 +119,7 @@ declare module 'metro' {
   //#endregion
   //#region metro/src/DeltaBundler/types.flow.js
 
-  interface MixedOutput {
+  export interface MixedOutput {
     readonly data: unknown;
     readonly type: string;
   }
