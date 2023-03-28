@@ -136,7 +136,7 @@ After registering your iOS device, you can create the development build by runni
 
 <Terminal cmd={['$ eas build --profile development --platform ios']} />
 
-After the build is complete, it's ready to be installed on your iOS device.
+> Devices running iOS 16 and above require enabling a special OS-level Developer Mode to install development builds. If you don't have this setting enabled or are installing your first development build on your device, see [iOS Developer Mode](/guides/ios-developer-mode/) to enable it.
 
 After the build is complete, you can download it on your iOS device by scanning the QR code from the device's camera from the Expo CLI. The QR code is provided when the `eas build` command has finished running.
 
