@@ -103,7 +103,7 @@ const home = [
     makePage('home/unit-testing.mdx'),
   ]),
   makeSection('Deploy', [
-    makePage('home/deploy/build-your-project.mdx'),
+    makePage('home/deploy/app-store-preparation.mdx'),
     makePage('home/deploy/submit-to-app-stores.mdx'),
     makePage('home/deploy/app-stores-metadata.mdx'),
     makePage('home/deploy/instant-updates.mdx'),
