@@ -27,6 +27,13 @@ export interface LoadOptions {
 
 export interface DefaultConfigOptions {
   mode?: 'exotic';
+  /**
+   * **Experimental:** Enable CSS support for Metro web, and shim on native.
+   *
+   * This is an experimental feature and may change in the future. The underlying implementation
+   * is subject to change, and native support for CSS Modules may be added in the future during a non-major SDK release.
+   */
+  isCSSEnabled?: boolean;
 }
 
 function getProjectBabelConfigFile(projectRoot: string): string | undefined {
@@ -155,8 +162,10 @@ export function getDefaultConfig(
     symbolicator: {
       customizeFrame: getDefaultCustomizeFrame(),
     },
-    // Custom worker that adds CSS support for Metro web.
-    transformerPath: require.resolve('./transform-worker/transform-worker'),
+    transformerPath: options.isCSSEnabled
+      ? // Custom worker that adds CSS support for Metro web.
+        require.resolve('./transform-worker/transform-worker')
+      : undefined,
 
     transformer: {
       // `require.context` support

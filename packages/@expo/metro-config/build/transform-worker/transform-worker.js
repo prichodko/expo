@@ -33,13 +33,20 @@ const css_modules_1 = require("./css-modules");
 const { stableHash } = require('metro-cache');
 const getCacheKey = require('metro-cache-key');
 const countLines = require('metro/src/lib/countLines');
-// TODO: Tailwind support goes here...
+/**
+ * A custom Metro transformer that adds support for processing Expo-specific bundler features.
+ * - Global CSS files on web.
+ * - CSS Modules on web.
+ * - TODO: Tailwind CSS on web.
+ */
 module.exports = {
     async transform(config, projectRoot, filename, data, options) {
         const isCss = options.type !== 'asset' && filename.endsWith('.css');
+        // If the file is not CSS, then use the default behavior.
         if (!isCss) {
             return metro_transform_worker_1.default.transform(config, projectRoot, filename, data, options);
         }
+        // If the platform is not web, then return an empty module.
         if (options.platform !== 'web') {
             const code = (0, css_modules_1.matchCssModule)(filename) ? 'export default {}' : '';
             return metro_transform_worker_1.default.transform(config, projectRoot, filename, 
@@ -47,6 +54,8 @@ module.exports = {
             Buffer.from(code), options);
         }
         const code = data.toString('utf8');
+        // If the file is a CSS Module, then transform it to a JS module
+        // in development and a static CSS file in production.
         if ((0, css_modules_1.matchCssModule)(filename)) {
             const results = await (0, css_modules_1.transformCssModuleWeb)({
                 filename,

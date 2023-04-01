@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { BabelTransformerArgs } from 'metro-babel-transformer';
 export declare function transformCssModuleWeb(props: {
     filename: string;

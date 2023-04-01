@@ -116,8 +116,10 @@ function getDefaultConfig(projectRoot, options = {}) {
         symbolicator: {
             customizeFrame: (0, customizeFrame_1.getDefaultCustomizeFrame)(),
         },
-        // Custom worker that adds CSS support for Metro web.
-        transformerPath: require.resolve('./transform-worker/transform-worker'),
+        transformerPath: options.isCSSEnabled
+            ? // Custom worker that adds CSS support for Metro web.
+                require.resolve('./transform-worker/transform-worker')
+            : undefined,
         transformer: {
             // `require.context` support
             unstable_allowRequireContext: true,
