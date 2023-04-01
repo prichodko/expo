@@ -97,7 +97,16 @@ declare module 'metro/src/lib/createWebsocketServer' {
 }
 
 declare module 'metro/src/lib/splitBundleOptions' {
-  type SplitBundleOptions = any;
+  import { ConfigT } from 'metro-config';
+
+  type SplitBundleOptions = {
+    entryFile: string;
+    resolverOptions: unknown;
+    transformOptions: { platform: string };
+    serializerOptions: unknown;
+    graphOptions: unknown;
+    onProgress?: (numProcessed: number, total: number) => any;
+  };
 
   type BundleOptions = any;
 
@@ -309,7 +318,7 @@ declare module 'metro' {
 
   import { Server as HttpServer } from 'http';
   import { Server as HttpsServer } from 'https';
-  import { loadConfig, ConfigT, InputConfigT, Middleware } from 'metro-config';
+  import { loadConfig, ConfigT, InputConfigT, Middleware, ConfigT } from 'metro-config';
 
   type MetroMiddleWare = {
     attachHmrServer: (httpServer: HttpServer | HttpsServer) => void;
