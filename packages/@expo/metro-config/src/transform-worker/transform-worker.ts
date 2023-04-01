@@ -32,8 +32,12 @@ type JsOutput = {
   type: JSFileType;
 };
 
-// TODO: Tailwind support goes here...
-
+/**
+ * A custom Metro transformer that adds support for processing Expo-specific bundler features.
+ * - Global CSS files on web.
+ * - CSS Modules on web.
+ * - TODO: Tailwind CSS on web.
+ */
 module.exports = {
   async transform(
     config: JsTransformerConfig,
@@ -43,9 +47,12 @@ module.exports = {
     options: JsTransformOptions
   ): Promise<TransformResponse> {
     const isCss = options.type !== 'asset' && filename.endsWith('.css');
+    // If the file is not CSS, then use the default behavior.
     if (!isCss) {
       return worker.transform(config, projectRoot, filename, data, options);
     }
+
+    // If the platform is not web, then return an empty module.
     if (options.platform !== 'web') {
       const code = matchCssModule(filename) ? 'export default {}' : '';
       return worker.transform(
@@ -60,6 +67,8 @@ module.exports = {
 
     const code = data.toString('utf8');
 
+    // If the file is a CSS Module, then transform it to a JS module
+    // in development and a static CSS file in production.
     if (matchCssModule(filename)) {
       const results = await transformCssModuleWeb({
         filename,

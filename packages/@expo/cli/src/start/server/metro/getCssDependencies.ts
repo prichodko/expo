@@ -36,6 +36,7 @@ export type CSSAsset = {
 // s = static
 const STATIC_EXPORT_DIRECTORY = '_expo/s/css';
 
+/** @returns the static CSS assets used in a given bundle. CSS assets are only enabled if the `@expo/metro-config` `transformerPath` is used. */
 export async function getCssModulesFromBundler(
   config: MetroConfig,
   incrementalBundler: IncrementalBundler,
