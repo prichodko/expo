@@ -1,5 +1,3 @@
-/// <reference types="node" />
-import { BabelTransformerArgs } from 'metro-babel-transformer';
 export declare function transformCssModuleWeb(props: {
     filename: string;
     src: string;
@@ -18,6 +16,4 @@ export declare function convertLightningCssToReactNativeWebStyleSheet(input: imp
     styles: Record<string, any>;
     variables: Record<string, string>;
 };
-export declare function transformCssModuleNative(props: BabelTransformerArgs): Promise<BabelTransformerArgs>;
-export declare function transformCssModule(props: BabelTransformerArgs): Promise<BabelTransformerArgs>;
 export declare function matchCssModule(filePath: string): boolean;

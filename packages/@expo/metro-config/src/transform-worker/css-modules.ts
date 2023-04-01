@@ -1,6 +1,6 @@
-import { BabelTransformerArgs } from 'metro-babel-transformer';
-
 import { wrapDevelopmentCSS } from './css';
+
+const RNW_CSS_CLASS_ID = '_';
 
 export async function transformCssModuleWeb(props: {
   filename: string;
@@ -27,23 +27,18 @@ export async function transformCssModuleWeb(props: {
   });
   const codeAsString = cssResults.code.toString();
 
-  const runtimeCss = wrapDevelopmentCSS({
-    ...props,
-    src: codeAsString,
-  });
-
   const { styles, variables } = convertLightningCssToReactNativeWebStyleSheet(cssResults.exports!);
 
-  let outputModule = [
-    // "import { StyleSheet } from 'react-native';",
-    // `const styles = StyleSheet.create(${JSON.stringify(styles)});`,
-    `module.exports = Object.assign(${JSON.stringify(styles)}, ${JSON.stringify(variables)});`,
-    // "import { StyleSheet } from 'react-native';",
-    // `const styles = StyleSheet.create(${JSON.stringify(styles)});`,
-    // `export default { ...styles, ...${JSON.stringify(variables)} };`,
-  ].join('\n');
+  let outputModule = `module.exports=Object.assign(${JSON.stringify(styles)},${JSON.stringify(
+    variables
+  )});`;
 
   if (props.options.dev) {
+    const runtimeCss = wrapDevelopmentCSS({
+      ...props,
+      src: codeAsString,
+    });
+
     outputModule += '\n' + runtimeCss;
   }
 
@@ -73,32 +68,13 @@ export function convertLightningCssToReactNativeWebStyleSheet(
       variables[key] = className;
     }
 
-    styles[key] = { $$css: true, c: className };
+    styles[key] = { $$css: true, [RNW_CSS_CLASS_ID]: className };
     return {
-      [key]: { $$css: true, c: className },
+      [key]: { $$css: true, [RNW_CSS_CLASS_ID]: className },
     };
   });
 
   return { styles, variables };
-}
-
-export async function transformCssModuleNative(
-  props: BabelTransformerArgs
-): Promise<BabelTransformerArgs> {
-  // TODO: Native
-  props.src = 'export default ' + JSON.stringify({});
-  return props;
-}
-
-export async function transformCssModule(
-  props: BabelTransformerArgs
-): Promise<BabelTransformerArgs> {
-  if (!matchCssModule(props.filename)) return props;
-
-  if (props.options.platform === 'web') {
-    return transformCssModuleWeb(props);
-  }
-  return transformCssModuleNative(props);
 }
 
 export function matchCssModule(filePath: string): boolean {

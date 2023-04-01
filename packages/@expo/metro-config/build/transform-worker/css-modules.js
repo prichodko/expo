@@ -23,8 +23,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.matchCssModule = exports.transformCssModule = exports.transformCssModuleNative = exports.convertLightningCssToReactNativeWebStyleSheet = exports.transformCssModuleWeb = void 0;
+exports.matchCssModule = exports.convertLightningCssToReactNativeWebStyleSheet = exports.transformCssModuleWeb = void 0;
 const css_1 = require("./css");
+const RNW_CSS_CLASS_ID = '_';
 async function transformCssModuleWeb(props) {
     const { transform } = await Promise.resolve().then(() => __importStar(require('lightningcss')));
     // TODO: Add bundling to resolve imports
@@ -43,20 +44,13 @@ async function transformCssModuleWeb(props) {
         minify: props.options.minify,
     });
     const codeAsString = cssResults.code.toString();
-    const runtimeCss = (0, css_1.wrapDevelopmentCSS)({
-        ...props,
-        src: codeAsString,
-    });
     const { styles, variables } = convertLightningCssToReactNativeWebStyleSheet(cssResults.exports);
-    let outputModule = [
-        // "import { StyleSheet } from 'react-native';",
-        // `const styles = StyleSheet.create(${JSON.stringify(styles)});`,
-        `module.exports = Object.assign(${JSON.stringify(styles)}, ${JSON.stringify(variables)});`,
-        // "import { StyleSheet } from 'react-native';",
-        // `const styles = StyleSheet.create(${JSON.stringify(styles)});`,
-        // `export default { ...styles, ...${JSON.stringify(variables)} };`,
-    ].join('\n');
+    let outputModule = `module.exports=Object.assign(${JSON.stringify(styles)},${JSON.stringify(variables)});`;
     if (props.options.dev) {
+        const runtimeCss = (0, css_1.wrapDevelopmentCSS)({
+            ...props,
+            src: codeAsString,
+        });
         outputModule += '\n' + runtimeCss;
     }
     return {
@@ -80,29 +74,14 @@ function convertLightningCssToReactNativeWebStyleSheet(input) {
         if (key.startsWith('--')) {
             variables[key] = className;
         }
-        styles[key] = { $$css: true, c: className };
+        styles[key] = { $$css: true, [RNW_CSS_CLASS_ID]: className };
         return {
-            [key]: { $$css: true, c: className },
+            [key]: { $$css: true, [RNW_CSS_CLASS_ID]: className },
         };
     });
     return { styles, variables };
 }
 exports.convertLightningCssToReactNativeWebStyleSheet = convertLightningCssToReactNativeWebStyleSheet;
-async function transformCssModuleNative(props) {
-    // TODO: Native
-    props.src = 'export default ' + JSON.stringify({});
-    return props;
-}
-exports.transformCssModuleNative = transformCssModuleNative;
-async function transformCssModule(props) {
-    if (!matchCssModule(props.filename))
-        return props;
-    if (props.options.platform === 'web') {
-        return transformCssModuleWeb(props);
-    }
-    return transformCssModuleNative(props);
-}
-exports.transformCssModule = transformCssModule;
 function matchCssModule(filePath) {
     return !!/\.module(\.(native|ios|android|web))?\.css$/.test(filePath);
 }

@@ -7,30 +7,28 @@ export function getHotReplaceTemplate(id: string) {
   // use the path as the expo-css-hmr attribute to find the style tag
   // to replace.
   const attr = JSON.stringify(pathToHtmlSafeName(id));
-  return `
-      style.setAttribute('data-expo-css-hmr', ${attr});
-      const previousStyle = document.querySelector(\`[data-expo-css-hmr="\${${attr}}"]\`);
-      if (previousStyle) {
-          previousStyle.parentNode.removeChild(previousStyle);
-      }`;
+  return `style.setAttribute('data-expo-css-hmr', ${attr});
+  const previousStyle = document.querySelector('[data-expo-css-hmr=${attr}]');
+  if (previousStyle) {
+    previousStyle.parentNode.removeChild(previousStyle);
+  }`;
 }
 
 export function wrapDevelopmentCSS(props: { src: string; filename: string }) {
-  return `
-      (() => {
-        if (typeof document === 'undefined') {
-          return
-        }
-        const head = document.head || document.getElementsByTagName('head')[0];
-        const style = document.createElement('style');
-        ${getHotReplaceTemplate(props.filename)}
-        style.setAttribute('data-expo-loader', 'css');
-        head.appendChild(style);
-        const css = \`${props.src.replace(/`/, '`')}\`;
-        if (style.styleSheet){
-          style.styleSheet.cssText = css;
-        } else {
-          style.appendChild(document.createTextNode(css));
-        }
-      })();`;
+  return `(() => {
+  if (typeof document === 'undefined') {
+    return
+  }
+  const head = document.head || document.getElementsByTagName('head')[0];
+  const style = document.createElement('style');
+  ${getHotReplaceTemplate(props.filename)}
+  style.setAttribute('data-expo-loader', 'css');
+  head.appendChild(style);
+  const css = \`${props.src.replace(/`/, '`')}\`;
+  if (style.styleSheet){
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+})();`;
 }
