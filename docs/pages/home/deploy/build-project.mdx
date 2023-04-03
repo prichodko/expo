@@ -1,6 +1,6 @@
 ---
 title: Build your project for app stores
-description: Learn about the best practices when submitting an app to the app stores and how to create a production build with EAS Build.
+description: Learn how to create a production build for your app that is ready to be submitted to app stores from the command line using EAS Build.
 sidebar_title: Build project for app stores
 ---
 
@@ -8,83 +8,17 @@ import { Collapsible } from '~/ui/components/Collapsible';
 import { Terminal } from '~/ui/components/Snippet';
 import { Tabs, Tab } from '~/ui/components/Tabs';
 import { BoxLink } from '~/ui/components/BoxLink';
-
-Submitting your app to the app stores requires additional steps and checks that you must take care of. This page lists the best practices that you should follow to make sure your app is ready.
-
-## App stores best practices
-
-> **warning** **Disclaimer:** Review guidelines and rules are updated frequently, and enforcement of various rules can sometimes be inconsistent. There is no guarantee that your particular project will be accepted by either platform, and you are ultimately responsible for your app's behavior. That said, you can re-submit your app as needed to address feedback from reviews.
-
-<BoxLink
-  title="Splash screen"
-  description="Create a seamless loading experience using with the splash screen API."
-  href="/home/develop/user-interface/splash-screen/"
-/>
-<BoxLink
-  title="App icons"
-  description="App stores have strict rules for home screen icons."
-  href="/home/develop/user-interface/app-icons"
-/>
-<BoxLink
-  title="Status bar"
-  description="Configure the native status bar to have high contrast on all screens."
-  href="/guides/configuring-statusbar"
-/>
-<BoxLink
-  title="Versioning your app"
-  description="Learn how to configure native runtime versions for your apps."
-  href="/build-reference/app-versions"
-/>
-<BoxLink
-  title="App Store presence"
-  description="Manage your Apple App Store metadata from the command line."
-  href="/eas-metadata/introduction"
-/>
-<BoxLink
-  title="Permissions"
-  description="Refine native permissions and system dialog messages."
-  href="/guides/permissions"
-/>
-<BoxLink
-  title="Localizing your app"
-  description="Prepare versions of your app for different languages and regions."
-  href="/guides/localization"
-/>
-<BoxLink
-  title="Apple: Review guidelines"
-  description="Official Apple guide on preparing your app for App Store review."
-  href="https://developer.apple.com/app-store/review"
-/>
-
-## Responsive design
-
-It's a good idea to test your app on a device or simulator with a small screen (for example, an iPhone SE) and a large screen (for example, an iPhone X). Ensure your components render the way you expect, no buttons are blocked, and all text fields are accessible.
-
-Try your app on tablets in addition to handsets. Even if you have `ios.supportsTablet: false` configured, your app will still render at phone resolution on iPads and must be usable.
-
-> **warning** Apple may reject your app if elements don't render properly on an iPad, even if your app doesn't target the iPad form factor. Be sure and test your app on an iPad (or iPad simulator).
-
-## Privacy Policy
-
-Starting October 3, 2018, all new iOS apps and app updates will be required to have a privacy policy to pass the App Store Review Guidelines.
-
-### App privacy questions
-
-Beginning December 8, 2020, new app submissions and updates are required to provide information about their privacy practices in App Store Connect. See [App privacy details on the App Store](https://developer.apple.com/app-store/app-privacy-details/) for more information.
-
-Apple will ask you a series of questions when you submit the app. Depending on which libraries you use, your answers may vary. For example, if you use `expo-updates`, you will need to say **Yes, we collect data from this app** and then you will want to select **Crash Data**.
-
-## Build for app stores
+import { BuildIcon, EasSubmitIcon, EasMetadataIcon, UpdateIcon } from '@expo/styleguide-icons';
 
 EAS Build allows you to build a native app binary that is signed for app store submission. These types of builds are called **production builds**.
 
-### Production builds
+## Production builds
 
 Production builds are submitted to app stores for release to the general public or as part of a store-facilitated testing process such as TestFlight.
 
 These builds must be installed through their respective app stores. They cannot be installed directly on your Android Emulator or device, or iOS Simulator or device. The only exception to this is if you explicitly set `"buildType": "apk"` for Android on your build profile. However, it is recommended to use **aab** when submitting to stores, and this is the default configuration.
 
-#### `eas.json` configuration
+### `eas.json` configuration
 
 A minimal configuration for building a production build in **eas.json** that is already created when you create your first build:
 
@@ -99,7 +33,7 @@ A minimal configuration for building a production build in **eas.json** that is 
 }
 ```
 
-#### Create a production build
+### Create a production build
 
 To create a production build, run the following command for a platform:
 
@@ -118,7 +52,7 @@ Alternatively, you can use `--platform all` option to build for Android and iOS 
 
 <Terminal cmd={['$ eas build --platform all']} />
 
-### Developer account
+## Developer account
 
 You will need to have a developer account for the app store you want to submit your app.
 
@@ -134,23 +68,23 @@ If you are going to use EAS Build to create release builds for the Apple App Sto
 
 </Collapsible>
 
-### App signing credentials
+## App signing credentials
 
 Before the build process can start for app stores, you will need to have a store developer account and generate or provide app signing credentials.
 
 Whether you have experience with generating app signing credentials or not, EAS CLI does the heavy lifting. You can opt-in for EAS CLI to handle the app signing credentials process.
 
-#### Android app signing credentials
+### Android app signing credentials
 
 - If you have not yet generated a keystore for your app, you can let EAS CLI take care of that for you by selecting `Generate new keystore`, and then you are done. The keystore is stored securely on EAS servers.
 - If you want to manually generate your keystore, please see the [manual Android credentials guide](/app-signing/local-credentials#android-credentials) for more information.
 
-#### iOS app signing credentials
+### iOS app signing credentials
 
 - If you have not generated a provisioning profile and/or distribution certificate yet, you can let EAS CLI take care of that for you by signing into your Apple Developer Program account and following the prompts.
 - If you want to rather manually generate your credentials, refer to the [manual iOS credentials guide](/app-signing/local-credentials#ios-credentials) for more information.
 
-### Wait for the build to complete
+## Wait for the build to complete
 
 By default, the `eas build` command will wait for your build to complete, but you can interrupt it if you prefer not to wait. Monitor the progress and read the logs by following the link to the build details page that EAS CLI prompts once the build process gets started. You can also find this page by visiting [your build dashboard](https://expo.dev/builds) or running the following command:
 
@@ -158,10 +92,17 @@ By default, the `eas build` command will wait for your build to complete, but yo
 
 If you are a member of an organization and your build is on its behalf, you will find the build details on [the build dashboard for that account](https://expo.dev/accounts/[account]/builds).
 
-## Next step
+## Next steps
 
 <BoxLink
   title="App store submissions"
   description="Learn how to submit your app to app stores using EAS Submit."
+  Icon={EasSubmitIcon}
   href="/home/deploy/submit-to-app-stores/"
+/>
+
+<BoxLink
+  title="App stores best practices"
+  description="Learn about the best practices for submitting your app to app stores."
+  href="/distribution/app-stores/"
 />
