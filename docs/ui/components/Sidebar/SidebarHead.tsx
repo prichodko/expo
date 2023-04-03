@@ -40,7 +40,7 @@ export const SidebarHead = ({ sidebarActiveGroup }: SidebarHeadProps) => {
         isActive={sidebarActiveGroup === 'home'}
       />
       <SidebarSingleEntry
-        href="/introduction/expo"
+        href="/workflow/expo-cli"
         title="Guides"
         Icon={BookOpen02Icon}
         isActive={sidebarActiveGroup === 'general'}

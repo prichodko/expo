@@ -133,6 +133,25 @@ function endsInNull(path: string) {
 // Simple remapping of renamed pages, similar to in deploy.sh but in some cases,
 // for reasons I'm not totally clear on, those redirects do not work
 const RENAMED_PAGES: Record<string, string> = {
+  // Redirects after creating /home route
+  '/next-steps/additional-resources/': '/additional-resources/',
+  // '/versions/latest/sdk/safe-area-context/': '/home/develop/user-interface/safe-areas',
+  // '/versions/latest/sdk/async-storage/': '/home/develop/user-interface/store-data/#async-storage',
+  '/get-started/create-a-new-app/': '/home/get-started/create-a-project',
+  '/guides/config-plugins/': '/home/config-plugins/introduction/',
+  '/workflow/debugging/': '/home/debugging/runtime-issue/',
+  '/guides/userinterface/': '/ui-programming/user-interface-libraries/',
+  '/introduction/expo/': '/home/core-concepts/',
+  '/introduction/why-not-expo/': '/home/faq/#limitations',
+  '/introduction/faq/': '/home/faq/',
+  '/next-steps/community/': '/',
+  '/introduction/managed-vs-bare/': '/archive/managed-vs-bare/',
+  '/workflow/expo-go/': '/home/get-started/expo-go/',
+  '/guides/splash-screens/': '/home/develop/user-interface/splash-screen/',
+  '/guides/app-icons/': '/home/develop/user-interface/app-icons/',
+  '/guides/color-schemes/': '/home/develop/user-interface/color-themes/',
+  '/guides/using-custom-fonts/': '/home/develop/user-interface/fonts/',
+
   '/introduction/project-lifecycle/': '/introduction/managed-vs-bare/',
   '/versions/latest/sdk/': '/versions/latest/',
   '/versions/latest/sdk/overview/': '/versions/latest/',

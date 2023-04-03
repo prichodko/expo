@@ -112,14 +112,8 @@ const home = [
 ];
 
 const general = [
-  makeSection(
-    'Develop',
-    [makePage('introduction/expo.mdx'), makePage('introduction/managed-vs-bare.mdx')],
-    { expanded: true }
-  ),
   makeSection('Fundamentals', [
     makePage('workflow/expo-cli.mdx'),
-    makePage('workflow/expo-go.mdx'),
     makePage('workflow/using-libraries.mdx'),
     makePage('workflow/development-mode.mdx'),
     makePage('workflow/logging.mdx'),
@@ -127,7 +121,6 @@ const general = [
     makePage('workflow/android-studio-emulator.mdx'),
     makePage('workflow/ios-simulator.mdx'),
     makePage('workflow/run-on-device.mdx'),
-    makePage('workflow/debugging.mdx'),
     makePage('workflow/configuration.mdx'),
     makePage('workflow/upgrading-expo-sdk-walkthrough.mdx'),
     makePage('workflow/web.mdx'),
@@ -168,7 +161,6 @@ const general = [
     makePage('guides/linking.mdx'),
     makePage('guides/deep-linking.mdx'),
     makePage('guides/troubleshooting-proxies.mdx'),
-    makePage('guides/config-plugins.mdx'),
     makePage('guides/monorepos.mdx'),
     makePage('guides/sharing-preview-releases.mdx'),
     makePage('guides/using-hermes.mdx'),
@@ -280,7 +272,6 @@ const general = [
     'More',
     [
       makePage('eas/webhooks.mdx'),
-      makePage('introduction/why-not-expo.mdx'),
       makeSection('Integrations', [
         makePage('guides/using-firebase.mdx'),
         makePage('guides/using-sentry.mdx'),
@@ -316,7 +307,7 @@ const general = [
 
 const learn = [
   makeSection(
-    'Get Started',
+    'Get started',
     [
       makePage('tutorial/introduction.mdx'),
       makePage('tutorial/create-your-first-app.mdx'),
@@ -380,6 +371,7 @@ const archive = [
   makeSection('More', [
     makePage('archive/adhoc-builds.mdx'),
     makePage('archive/expo-cli.mdx'),
+    makePage('archive/managed-vs-bare.mdx'),
     makePage('archive/notification-channels.mdx'),
     makePage('archive/glossary.mdx'),
   ]),
