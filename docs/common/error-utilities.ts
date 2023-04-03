@@ -135,6 +135,7 @@ function endsInNull(path: string) {
 const RENAMED_PAGES: Record<string, string> = {
   // Redirects after creating /home route
   '/next-steps/additional-resources/': '/additional-resources/',
+  // TODO: (@aman) Uncomment the two lines below when we've removed third-party libraries from Reference
   // '/versions/latest/sdk/safe-area-context/': '/home/develop/user-interface/safe-areas',
   // '/versions/latest/sdk/async-storage/': '/home/develop/user-interface/store-data/#async-storage',
   '/get-started/create-a-new-app/': '/home/get-started/create-a-project',
@@ -152,6 +153,7 @@ const RENAMED_PAGES: Record<string, string> = {
   '/guides/color-schemes/': '/home/develop/user-interface/color-themes/',
   '/guides/using-custom-fonts/': '/home/develop/user-interface/fonts/',
 
+  // Old redirects
   '/introduction/project-lifecycle/': '/introduction/managed-vs-bare/',
   '/versions/latest/sdk/': '/versions/latest/',
   '/versions/latest/sdk/overview/': '/versions/latest/',
